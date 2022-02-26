@@ -169,7 +169,6 @@ type OrganizationLocation @model @auth(rules: [{allow: public}]) {
   id: ID!
   locationID: ID! @index(name: "byLocation")
   createdByID: ID! @index(name: "byUser")
-  userID: ID! @index(name: "byUser")
   createdDtm: AWSDateTime
 }
 
@@ -178,13 +177,12 @@ type Organization @model @auth(rules: [{allow: public}]) {
   name: String
   createdById: ID! @index(name: "byUser")
   createdDtm: AWSDateTime
-  userID: ID! @index(name: "byUser")
   UserOrganizationWallets: [UserOrganizationWallet] @hasMany(indexName: "byOrganization", fields: ["id"])
   OrganizationAdmins: [OrganizationAdmin] @hasMany(indexName: "byOrganization", fields: ["id"])
   OrganizationModerators: [OrganizationModerator] @hasMany(indexName: "byOrganization", fields: ["id"])
   OrganizationMembers: [OrganizationMember] @hasMany(indexName: "byOrganization", fields: ["id"])
   Collectables: [Collectable] @hasMany(indexName: "byOrganization", fields: ["id"])
-  OrganizationPictures: [OrganizationPictur] @hasMany(indexName: "byOrganization", fields: ["id"])
+  OrganizationPictures: [OrganizationPicture] @hasMany(indexName: "byOrganization", fields: ["id"])
   QuestRewards: [QuestReward] @hasMany(indexName: "byOrganization", fields: ["id"])
   QuestStageRewards: [QuestStageReward] @hasMany(indexName: "byOrganization", fields: ["id"])
   QuestStageTaskRewards: [QuestStageTaskReward] @hasMany(indexName: "byOrganization", fields: ["id"])
@@ -289,7 +287,6 @@ type Quest @model @auth(rules: [{allow: public}]) {
   QuestStages: [QuestStage] @hasMany(indexName: "byQuest", fields: ["id"])
   createdDtm: AWSDateTime
   createdById: ID! @index(name: "byUser")
-  userID: ID! @index(name: "byUser")
   QuestPictures: [QuestPicture] @hasMany(indexName: "byQuest", fields: ["id"])
   QuestRewards: [QuestReward] @hasMany(indexName: "byQuest", fields: ["id"])
   QuestOrganizationRequirements: [QuestOrganizationRequirement] @hasMany(indexName: "byQuest", fields: ["id"])

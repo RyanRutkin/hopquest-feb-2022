@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-hopquest-feb-2022-dev-154029-authRole",
+      "UnauthRoleArn": "arn:aws:iam::343645227276:role/amplify-hopquest-feb-2022-dev-154029-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::343645227276:role/amplify-hopquest-feb-2022-dev-154029-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-hopquest-feb-2022-dev-154029-deployment",
+      "UnauthRoleName": "amplify-hopquest-feb-2022-dev-154029-unauthRole",
+      "StackName": "amplify-hopquest-feb-2022-dev-154029",
+      "StackId": "arn:aws:cloudformation:us-east-1:343645227276:stack/amplify-hopquest-feb-2022-dev-154029/b969a560-974c-11ec-b20f-124633b26ba1",
+      "AmplifyAppId": "di4fs41847xpc"
+    }
+  }
+}
