@@ -1,0 +1,296 @@
+type QuestOrganizationStageRequirement @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  minReputation: Int
+  queststageID: ID! @index(name: "byQuestStage")
+  organizationID: ID! @index(name: "byOrganization")
+  createdDtm: AWSDateTime
+  approvedByID: ID @index(name: "byUser")
+}
+
+type QuestOrganizationRequirement @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  minReputation: Int
+  questID: ID! @index(name: "byQuest")
+  organizationID: ID! @index(name: "byOrganization")
+  createdDtm: AWSDateTime
+  approvedByID: ID @index(name: "byUser")
+}
+
+type UserCollectable @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  userID: ID! @index(name: "byUser")
+  collectableID: ID! @index(name: "byCollectable")
+  receivedDtm: AWSDateTime
+}
+
+type QuestStageTaskReward @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  reputation: Int
+  coin: Int
+  queststagetaskID: ID! @index(name: "byQuestStageTask")
+  organizationID: ID! @index(name: "byOrganization")
+  collectableID: ID @index(name: "byCollectable")
+  createdDtm: AWSDateTime
+}
+
+type QuestStageReward @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  reputation: Int
+  coin: Int
+  queststageID: ID! @index(name: "byQuestStage")
+  organizationID: ID! @index(name: "byOrganization")
+  collectableID: ID @index(name: "byCollectable")
+  createdDtm: AWSDateTime
+}
+
+type QuestReward @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  reputation: Int
+  coin: Int
+  questID: ID! @index(name: "byQuest")
+  organizationID: ID! @index(name: "byOrganization")
+  collectableID: ID @index(name: "byCollectable")
+  createdDtm: AWSDateTime
+}
+
+type UserQuestStageTaskRequirementSubmissionPicture @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  userqueststagetaskrequirementsubmissionID: ID! @index(name: "byUserQuestStageTaskRequirementSubmission")
+  pictureID: ID! @index(name: "byPicture")
+  approvedByID: ID @index(name: "byUser")
+}
+
+type UserQuestStageTaskRequirementSubmission @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  userID: ID! @index(name: "byUser")
+  createdDtm: AWSDateTime
+  queststagetaskrequirementID: ID! @index(name: "byQuestStageTaskRequirement")
+  UserQuestStageTaskRequirementSubmissionPictures: [UserQuestStageTaskRequirementSubmissionPicture] @hasMany(indexName: "byUserQuestStageTaskRequirementSubmission", fields: ["id"])
+}
+
+type QuestStageTaskPicture @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  pictureID: ID! @index(name: "byPicture")
+  queststagetaskID: ID! @index(name: "byQuestStageTask")
+}
+
+type QuestStagePicture @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  pictureID: ID! @index(name: "byPicture")
+  queststageID: ID! @index(name: "byQuestStage")
+}
+
+type QuestPicture @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  pictureID: ID! @index(name: "byPicture")
+  questID: ID! @index(name: "byQuest")
+}
+
+type OrganizationPicture @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  pictureID: ID! @index(name: "byPicture")
+  organizationID: ID! @index(name: "byOrganization")
+}
+
+type Picture @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+  description: String
+  s3Url: AWSURL
+  uploadedDtm: AWSDateTime
+  uploadedByID: ID! @index(name: "byUser")
+  CollectablePictures: [CollectablePicture] @hasMany(indexName: "byPicture", fields: ["id"])
+  OrganizationPictures: [OrganizationPicture] @hasMany(indexName: "byPicture", fields: ["id"])
+  QuestPictures: [QuestPicture] @hasMany(indexName: "byPicture", fields: ["id"])
+  QuestStagePictures: [QuestStagePicture] @hasMany(indexName: "byPicture", fields: ["id"])
+  QuestStageTaskPictures: [QuestStageTaskPicture] @hasMany(indexName: "byPicture", fields: ["id"])
+  UserQuestStageTaskRequirementSubmissionPictures: [UserQuestStageTaskRequirementSubmissionPicture] @hasMany(indexName: "byPicture", fields: ["id"])
+}
+
+type CollectableRedeemLocation @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  collectableID: ID! @index(name: "byCollectable")
+  locationID: ID! @index(name: "byLocation")
+}
+
+type CollectablePicture @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  collectableID: ID! @index(name: "byCollectable")
+  pictureID: ID! @index(name: "byPicture")
+}
+
+type Collectable @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+  description: String
+  minReputation: Int
+  coin: Int
+  realItem: Boolean
+  organizationID: ID! @index(name: "byOrganization")
+  createdByID: ID! @index(name: "byUser")
+  createdDtm: AWSDateTime
+  CollectablePictures: [CollectablePicture] @hasMany(indexName: "byCollectable", fields: ["id"])
+  CollectableRedeemLocations: [CollectableRedeemLocation] @hasMany(indexName: "byCollectable", fields: ["id"])
+  QuestRewards: [QuestReward] @hasMany(indexName: "byCollectable", fields: ["id"])
+  QuestStageRewards: [QuestStageReward] @hasMany(indexName: "byCollectable", fields: ["id"])
+  QuestStageTaskRewards: [QuestStageTaskReward] @hasMany(indexName: "byCollectable", fields: ["id"])
+}
+
+type OrganizationMember @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  organizationID: ID! @index(name: "byOrganization")
+  userID: ID! @index(name: "byUser")
+  createdDtm: AWSDateTime
+}
+
+type OrganizationModerator @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  organizationID: ID! @index(name: "byOrganization")
+  userID: ID! @index(name: "byUser")
+  createdDtm: AWSDateTime
+}
+
+type OrganizationAdmin @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  organizationID: ID! @index(name: "byOrganization")
+  userID: ID! @index(name: "byUser")
+  createdDtm: AWSDateTime
+}
+
+type UserOrganizationWallet @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  coin: Int
+  reputation: Int
+  organizationID: ID! @index(name: "byOrganization")
+  userID: ID! @index(name: "byUser")
+}
+
+type OrganizationLocation @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  locationID: ID! @index(name: "byLocation")
+  createdByID: ID! @index(name: "byUser")
+  userID: ID! @index(name: "byUser")
+  createdDtm: AWSDateTime
+}
+
+type Organization @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+  createdById: ID! @index(name: "byUser")
+  createdDtm: AWSDateTime
+  userID: ID! @index(name: "byUser")
+  UserOrganizationWallets: [UserOrganizationWallet] @hasMany(indexName: "byOrganization", fields: ["id"])
+  OrganizationAdmins: [OrganizationAdmin] @hasMany(indexName: "byOrganization", fields: ["id"])
+  OrganizationModerators: [OrganizationModerator] @hasMany(indexName: "byOrganization", fields: ["id"])
+  OrganizationMembers: [OrganizationMember] @hasMany(indexName: "byOrganization", fields: ["id"])
+  Collectables: [Collectable] @hasMany(indexName: "byOrganization", fields: ["id"])
+  OrganizationPictures: [OrganizationPictur] @hasMany(indexName: "byOrganization", fields: ["id"])
+  QuestRewards: [QuestReward] @hasMany(indexName: "byOrganization", fields: ["id"])
+  QuestStageRewards: [QuestStageReward] @hasMany(indexName: "byOrganization", fields: ["id"])
+  QuestStageTaskRewards: [QuestStageTaskReward] @hasMany(indexName: "byOrganization", fields: ["id"])
+}
+
+type User @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  email: String
+  username: String
+  coin: Int
+  reputation: Int
+  CreatedQuests: [Quest] @hasMany(indexName: "byUser", fields: ["id"])
+  CreatedQuestStages: [QuestStage] @hasMany(indexName: "byUser", fields: ["id"])
+  CreatedQuestStageTasks: [QuestStageTask] @hasMany(indexName: "byUser", fields: ["id"])
+  CreatedQuestStageTaskRequirements: [QuestStageTaskRequirement] @hasMany(indexName: "byUser", fields: ["id"])
+  CreatedLocations: [Location] @hasMany(indexName: "byUser", fields: ["id"])
+  CreatedOrganizations: [Organization] @hasMany(indexName: "byUser", fields: ["id"])
+  CreatedOrganizationLocations: [OrganizationLocation] @hasMany(indexName: "byUser", fields: ["id"])
+  UserOrganizationWallets: [UserOrganizationWallet] @hasMany(indexName: "byUser", fields: ["id"])
+  OrganizationAdmins: [OrganizationAdmin] @hasMany(indexName: "byUser", fields: ["id"])
+  OrganizationModerators: [OrganizationModerator] @hasMany(indexName: "byUser", fields: ["id"])
+  OrganizationMembers: [OrganizationMember] @hasMany(indexName: "byUser", fields: ["id"])
+  CreatedCollectables: [Collectable] @hasMany(indexName: "byUser", fields: ["id"])
+  CreatedPictures: [Picture] @hasMany(indexName: "byUser", fields: ["id"])
+  UserQuestStageTaskRequirementSubmissions: [UserQuestStageTaskRequirementSubmission] @hasMany(indexName: "byUser", fields: ["id"])
+  UserQuestStageTaskRequirementSubmissionPictureApprovals: [UserQuestStageTaskRequirementSubmissionPicture] @hasMany(indexName: "byUser", fields: ["id"])
+  UserCollectables: [UserCollectable] @hasMany(indexName: "byUser", fields: ["id"])
+  createdDtm: AWSDateTime
+}
+
+type PictureRequirement @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+  description: String
+}
+
+type QRCodeRequirement @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+  description: String
+  qrcode: String
+}
+
+type Location @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+  description: String
+  latitude: Float
+  longitude: Float
+  QuestStageTaskRequirements: [QuestStageTaskRequirement] @hasMany(indexName: "byLocation", fields: ["id"])
+  createdById: ID! @index(name: "byUser")
+  createdDtm: AWSDateTime
+  OrganizationLocations: [OrganizationLocation] @hasMany(indexName: "byLocation", fields: ["id"])
+}
+
+type QuestStageTaskRequirement @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+  description: String
+  queststagetaskID: ID! @index(name: "byQuestStageTask")
+  QRCodeRequirement: QRCodeRequirement @hasOne
+  PictureRequirement: PictureRequirement @hasOne
+  locationID: ID @index(name: "byLocation")
+  createdById: ID! @index(name: "byUser")
+  createdDtm: AWSDateTime
+}
+
+type QuestStageTask @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+  description: String
+  rewardReputation: Int
+  queststageID: ID! @index(name: "byQuestStage")
+  QuestStageTaskRequirements: [QuestStageTaskRequirement] @hasMany(indexName: "byQuestStageTask", fields: ["id"])
+  createdById: ID! @index(name: "byUser")
+  createdDtm: AWSDateTime
+  QuestStageTaskPictures: [QuestStageTaskPicture] @hasMany(indexName: "byQuestStageTask", fields: ["id"])
+  QuestStageTaskRewards: [QuestStageTaskReward] @hasMany(indexName: "byQuestStageTask", fields: ["id"])
+}
+
+type QuestStage @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+  description: String
+  minReputation: Int
+  rewardReputation: Int
+  QuestStageTasks: [QuestStageTask] @hasMany(indexName: "byQuestStage", fields: ["id"])
+  questID: ID! @index(name: "byQuest")
+  createdById: ID! @index(name: "byUser")
+  QuestStagePictures: [QuestStagePicture] @hasMany(indexName: "byQuestStage", fields: ["id"])
+  QuestStageRewards: [QuestStageReward] @hasMany(indexName: "byQuestStage", fields: ["id"])
+  QuestOrganizationStageRequirements: [QuestOrganizationStageRequirement] @hasMany(indexName: "byQuestStage", fields: ["id"])
+  createdDtm: AWSDateTime
+}
+
+type Quest @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+  description: String
+  minReputation: Int
+  rewardReputation: Int
+  QuestStages: [QuestStage] @hasMany(indexName: "byQuest", fields: ["id"])
+  createdDtm: AWSDateTime
+  createdById: ID! @index(name: "byUser")
+  userID: ID! @index(name: "byUser")
+  QuestPictures: [QuestPicture] @hasMany(indexName: "byQuest", fields: ["id"])
+  QuestRewards: [QuestReward] @hasMany(indexName: "byQuest", fields: ["id"])
+  QuestOrganizationRequirements: [QuestOrganizationRequirement] @hasMany(indexName: "byQuest", fields: ["id"])
+}

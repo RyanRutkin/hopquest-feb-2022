@@ -1,0 +1,17 @@
+{
+  "projectName": "hopquest-feb-2022",
+  "version": "3.0",
+  "frontend": "javascript",
+  "providers": [
+    "awscloudformation"
+  ],
+  "javascript": {
+    "framework": "react-native",
+    "config": {
+      "SourceDir": "src",
+      "DistributionDir": "/",
+      "BuildCommand": "npm run-script build",
+      "StartCommand": "npm run-script start"
+    }
+  }
+}
