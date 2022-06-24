@@ -10,6 +10,11 @@
       "StackName": "amplify-hopquest-feb-2022-dev-154029",
       "StackId": "arn:aws:cloudformation:us-east-1:343645227276:stack/amplify-hopquest-feb-2022-dev-154029/b969a560-974c-11ec-b20f-124633b26ba1",
       "AmplifyAppId": "di4fs41847xpc"
+    },
+    "categories": {
+      "auth": {
+        "hopquestfeb2022ffe4c244": {}
+      }
     }
   }
 }

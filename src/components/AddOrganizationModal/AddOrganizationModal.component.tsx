@@ -1,15 +1,28 @@
 import React, { FC, useState } from 'react';
 import { Modal, View, StyleSheet, Pressable, Text, TextInput } from 'react-native';
+import { DataStore } from 'aws-amplify';
+import { Organization } from '../../models';
 
 export const AppAddOrganizationModal: FC<{
     open: boolean;
     setOpen: (b: boolean) => void;
 }> = ({ open, setOpen }) => {
     const [ orgName, setOrgName ] = useState<string>('');
-    const [ orgDescription, setOrgDescription ] = useState<string>('');
+    const [ errorMsg, setErrorMsg ] = useState<string>('');
 
-    async function addOrganization() {
-        //to be filled in a later step
+    const addOrganization = () => {
+        console.log(`Adding org "${orgName}"`)
+        DataStore.save(new Organization({
+            name: orgName,
+            createdById: '1',
+            createdDtm: new Date().toISOString()
+        })).catch(e => {
+            console.log('Failed to save', e);
+            setErrorMsg('Failed to save organization');
+        }).then(() => {
+            setOpen(false);
+            setOrgName('');
+        });
     }
 
     return (
@@ -21,22 +34,25 @@ export const AppAddOrganizationModal: FC<{
         >
             <View style={styles.modalContainer} >
                 <View style={styles.modalInnerContainer} >
-                <Pressable onPress={ () => setOpen(false) } style={styles.modalDismissButton}>
-                    <Text style={styles.modalDismissText}>X</Text>
-                </Pressable>
-                <TextInput
-                    onChangeText={setOrgName}
-                    placeholder="Name"
-                    style={styles.modalInput}
-                />
-                <TextInput
-                    onChangeText={setOrgDescription}
-                    placeholder="Description"
-                    style={styles.modalInput}
-                />
-                <Pressable onPress={addOrganization} style={styles.buttonContainer}>
-                    <Text style={styles.buttonText}>Save Organization</Text>
-                </Pressable>
+                    {
+                        errorMsg
+                        ? <Text style={styles.modalDismissText}>{ errorMsg }</Text>
+                        : null
+                    }
+                    <Pressable onPress={ () => setOpen(false) } style={styles.modalDismissButton}>
+                        <Text style={styles.modalDismissText}>X</Text>
+                    </Pressable>
+                    <TextInput
+                        onChangeText={ txt => {
+                            setOrgName(txt);
+                            setErrorMsg('');
+                        } }
+                        placeholder="Organization Name"
+                        style={styles.modalInput}
+                    />
+                    <Pressable onPress={addOrganization} style={styles.buttonContainer}>
+                        <Text style={styles.buttonText}>Save Organization</Text>
+                    </Pressable>
                 </View>
             </View>
         </Modal>

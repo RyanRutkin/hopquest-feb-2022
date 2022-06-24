@@ -3,9 +3,8 @@
   "serviceConfiguration": {
     "serviceName": "AppSync",
     "defaultAuthType": {
-      "mode": "API_KEY",
-      "expirationTime": 7,
-      "keyDescription": ""
+      "mode": "AMAZON_COGNITO_USER_POOLS",
+      "cognitoUserPoolId": "authhopquestfeb2022ffe4c244"
     },
     "conflictResolution": {
       "defaultResolutionStrategy": {
@@ -13,6 +12,7 @@
       }
     },
     "apiName": "amplifyDatasource",
-    "gqlSchemaPath": "/Users/adelaiderutkin/Repositories/hopquest-feb-2022/amplify/backend/api/amplifyDatasource/schema.graphql"
+    "gqlSchemaPath": "/Users/adelaiderutkin/Repositories/hopquest-feb-2022/amplify/backend/api/amplifyDatasource/schema.graphql",
+    "additionalAuthTypes": []
   }
 }
